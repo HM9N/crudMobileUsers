@@ -5,7 +5,7 @@ const User = new Schema ({
         name: { type: String, required: true },
         lastName: { type: String, required: true },
         age: { type: Number, required: true  },
-        email: { type: String, required: true}
+        email: { type: String, required: true, unique: true}
 });
 
 module.exports = mongoose.model('User', User)
