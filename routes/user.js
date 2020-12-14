@@ -2,23 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 
-
 /**
 * @swagger
-* /:
-*   get:
-*       tags:
-*       - ver usuarios
-*       description: Use to request all customers
-*       responses:
-*           '200':
-*               description: A successful response
-*               schema:
-*                   type: array
-*                   items:
-*                       $ref: '#definitions/User'
-*           '400':
-*               description: "error"  
 * definitions:
 *   User:
 *       type: object
@@ -41,12 +26,90 @@ const userController = require("../controllers/userController");
 *               type: string
 *               example: valentina@elcorreo.com
 */
-router.get("/", function (req, res) {
-    userController.list(req, res);
+
+
+/**
+* @swagger
+* /:
+*   get:
+*       tags:
+*       - ver usuarios
+*       description: ver todos los usuarios
+*       responses:
+*           '200':
+*               description: A successful response
+*               schema:
+*                   type: array
+*                   items:
+*                       $ref: '#definitions/User'
+*           '400':
+*               description: "error"  
+*/
+router.get("/", (req, res) => {
+        userController.list(req, res);
+    });
+
+/**
+* @swagger
+* /adduser:
+*           post:
+*               tags:
+*               - agregar usuario
+*               description: agregar un usuario
+*               parameters:
+*                  - name: user
+*                    description: información del usuario
+*                    in: body
+*                    required: true
+*                    type: string
+*                    schema:
+*                       $ref: '#definitions/User'
+*               responses:
+*                   '200':
+*                       description: usuario agregado
+*                   '400':
+*                       description: "error"  
+*/
+
+router.post("/adduser", (req, res) => {
+        userController.create(req, res);
+    });
+
+/**
+* @swagger
+* /user/:id:
+*           put:
+*               tags:
+*               - Modificar usuario
+*               description: Modificar usuario
+*               responses:
+*                   '200':
+*                       description: usuario modificado
+*                   '500':
+*                       description: "error al modificar"  
+*/
+
+router.put("/user/:id", (req, res)=> {
+    userController.update(req,res);
 });
 
-router.post("/adduser", function (req, res) {
-    userController.create(req, res);
+/**
+* @swagger
+* /user/:id:
+*           delete:
+*               tags:
+*               - borrar usuario
+*               description: borrar usuario
+*               responses:
+*                   '200':
+*                       description: usuario eliminado
+*                   '400':
+*                       description: "error al borrar usuario"  
+*/
+
+
+router.delete("/user/:id", (req,res) => {
+    userController.delete(req,res);
 });
 
 module.exports = router;
